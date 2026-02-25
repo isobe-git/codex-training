@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>銘柄管理アプリ</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>銘柄管理アプリ</h1>
+      <p>手入力運用 + 将来API連携可能</p>
+    </header>
+
+    <main class="grid">
+      <section class="card full">
+        <h2>ダッシュボード</h2>
+        <div id="summary"></div>
+        <div id="alerts"></div>
+      </section>
+
+      <section class="card full">
+        <h2>保有銘柄</h2>
+        <div class="table-wrap"><table id="positionsTable"></table></div>
+      </section>
+
+      <section class="card full">
+        <h2>月次 / 年次レポート（実現損益）</h2>
+        <div class="table-wrap"><table id="reportTable"></table></div>
+      </section>
+
+      <section class="card">
+        <h2>価格を更新</h2>
+        <form id="priceForm">
+          <input name="symbol" placeholder="銘柄コード" required />
+          <input name="price" type="number" min="0" step="0.01" placeholder="現在値" required />
+          <input name="date" type="date" required />
+          <button type="submit">更新</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>取引を追加</h2>
+        <form id="tradeForm">
+          <input name="symbol" placeholder="銘柄コード (例: 7203)" required />
+          <input name="broker" placeholder="証券会社 (例: SBI証券)" required />
+          <select name="side">
+            <option value="BUY">買付</option>
+            <option value="SELL">売却</option>
+          </select>
+          <input name="quantity" type="number" min="1" placeholder="数量" required />
+          <input name="price" type="number" min="0" step="0.01" placeholder="単価" required />
+          <input name="fee" type="number" min="0" step="0.01" placeholder="手数料" value="0" required />
+          <input name="date" type="date" required />
+          <button type="submit">追加</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>アラート設定</h2>
+        <form id="alertForm">
+          <input name="symbol" placeholder="銘柄コード" required />
+          <input name="targetPrice" type="number" min="0" step="0.01" placeholder="目標株価" />
+          <input name="stopPrice" type="number" min="0" step="0.01" placeholder="損切りライン" />
+          <label><input type="checkbox" name="useThreeSigma" /> 3σ判定を有効化</label>
+          <input name="trailingPercent" type="number" min="0" max="100" step="0.1" placeholder="トレール(%)" />
+          <button type="submit">設定</button>
+        </form>
+      </section>
+
+      <section class="card full">
+        <h2>取引履歴</h2>
+        <div class="table-wrap"><table id="tradesTable"></table></div>
+      </section>
+
+      <section class="card">
+        <h2>銘柄マスタ管理</h2>
+        <form id="masterForm">
+          <input name="symbol" placeholder="銘柄コード (例: 7203)" required />
+          <input name="name" placeholder="銘柄名 (例: トヨタ自動車)" required />
+          <input name="market" placeholder="市場 (例: 東証プライム)" />
+          <input name="sector" placeholder="業種 (例: 輸送用機器)" />
+          <button type="submit">登録 / 更新</button>
+        </form>
+      </section>
+
+      <section class="card full">
+        <h2>銘柄マスタ一覧</h2>
+        <div class="table-wrap"><table id="mastersTable"></table></div>
+      </section>
+
+      <section class="card full">
+        <h2>CSVインポート / エクスポート</h2>
+        <div class="csv-actions">
+          <button type="button" id="exportCsv">CSVエクスポート</button>
+          <input type="file" id="importCsv" accept=".csv,text/csv" />
+        </div>
+        <p class="muted">対応データ: 銘柄マスタ / 取引履歴 / 価格履歴 / アラート設定</p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
